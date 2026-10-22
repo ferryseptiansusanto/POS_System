@@ -1,3 +1,4 @@
 [submodule "orm"]
 	path = orm
 	url = https://github.com/ferryseptiansusanto/ORM_Generator
+    ignore = dirty
