@@ -1,7 +1,6 @@
 # migrate.py
 import os
 from orm.database_manager import DatabaseManager
-# migrate.py
 
 def run_migration():
     db_file = "app.db"
@@ -17,13 +16,18 @@ def run_migration():
 
     print("[INFO] Membuat tabel-tabel database...")
 
-    cursor.execute("""
+    # Path ke file SQL yang berisi DDL
+    sql_file = os.path.join(os.path.dirname(__file__), "database.sql")
 
-    """)
+    # Baca seluruh isi file SQL
+    with open(sql_file, "r", encoding="utf-8") as f:
+        sql_script = f.read()
+
+    # Jalankan seluruh script SQL (mendukung banyak statement)
+    cursor.executescript(sql_script)
 
     conn.commit()
     print("[OK] Migrasi tabel berhasil! Database 'app.db' siap digunakan.")
-
 
 
 if __name__ == "__main__":
