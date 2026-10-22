@@ -1,5 +1,10 @@
 # migrate.py
 import os
+import sys
+
+# Add project root to sys.path so that `orm` can be imported
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from orm.database_manager import DatabaseManager
 
 def run_migration():
