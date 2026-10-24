@@ -7,6 +7,7 @@ Fitur:
     - Produk       : CRUD barang
     - Pelanggan    : CRUD pelanggan
     - Riwayat      : daftar transaksi + detail struk
+    - Roles        : CRUD role pengguna
 
 Didesain agar tetap kompatibel dengan Flet 0.2x maupun 0.3x.
 """
