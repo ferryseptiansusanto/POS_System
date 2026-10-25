@@ -22,7 +22,7 @@ import sys
 import flet as ft
 
 # ---------------------------------------------------------------------------
-# Bootstrap path: pastikan folder `orm/` dan `Model/` bisa di-import
+# Bootstrap path: pastikan folder `orm/`, `Model/`, dan `views/` bisa di-import
 # (models.py memakai `from eloquent_base import Model`)
 # ---------------------------------------------------------------------------
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -30,11 +30,13 @@ for _path in (
     PROJECT_ROOT,
     os.path.join(PROJECT_ROOT, "orm"),
     os.path.join(PROJECT_ROOT, "Model"),
+    os.path.join(PROJECT_ROOT, "views"),
 ):
     if _path not in sys.path:
         sys.path.insert(0, _path)
 
-from models import Customer, Item, Sale, SaleDetail, User  # noqa: E402
+from models import Customer, Item, Role, Sale, SaleDetail, User  # noqa: E402
+from roles_view import RolesView  # noqa: E402
 
 try:  # transaksi database (opsional)
     from database_manager import DB, DatabaseManager
@@ -124,6 +126,7 @@ class MainWindow:
 
         self._setup_page()
         self._build_controls()
+        self.roles_view = RolesView(self.page, self)
         self._load_items()
         self._load_customers()
         self.show_page(0)
@@ -159,6 +162,7 @@ class MainWindow:
                 ft.NavigationRailDestination(icon=Icons.INVENTORY_2, label="Produk"),
                 ft.NavigationRailDestination(icon=Icons.PEOPLE, label="Pelanggan"),
                 ft.NavigationRailDestination(icon=Icons.RECEIPT_LONG, label="Riwayat"),
+                ft.NavigationRailDestination(icon=Icons.GROUPS, label="Roles"),
             ],
             on_change=lambda e: self.show_page(e.control.selected_index),
         )
@@ -211,8 +215,12 @@ class MainWindow:
             self.body.content = self.view_products()
         elif index == 2:
             self.body.content = self.view_customers()
-        else:
+        elif index == 3:
             self.body.content = self.view_history()
+        elif index == 4:
+            self.body.content = self.roles_view.build()
+        else:
+            self.body.content = self.view_pos()
         self.page.update()
 
     def build(self) -> ft.Control:

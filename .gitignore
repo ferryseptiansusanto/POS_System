@@ -2,7 +2,6 @@
 __pycache__/
 .idea
 *.db
-models.py
 identifier.sqlite
 demo_*.py
 # Aider configuration and history files
